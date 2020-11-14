@@ -17,14 +17,23 @@ def tokenize_by_sentence(text: str) -> tuple:
          (('_', 'h', 'e', '_'), ('_', 'i', 's', '_'), ('_', 'h', 'a', 'p', 'p', 'y', '_'))
          )
     """
-    pass
+    if not isinstance(text, str) or len(text) == 0:
+        return ()
+    tokens = re.split(r'[!.?] ', text)
+    spl_token = []
+    for token in tokens:
+        token_list = re.sub('[^a-z \n]', '', token.lower()).split()
+        if not token_list:
+            return ()
+        spl_token.append(tuple(tuple(['_'] + list(word) + ['_']) for word in token_list))
+    return tuple(spl_token)
 
 
 # 4
 class LetterStorage:
 
     def __init__(self):
-        pass
+        self.storage = {}
 
     def _put_letter(self, letter: str) -> int:
         """
@@ -32,7 +41,11 @@ class LetterStorage:
         :param letter: a letter
         :return: 0 if succeeds, 1 if not
         """
-        pass
+        if not isinstance(letter, str) or not 0 < len(letter) <= 1:
+            return 1
+        if letter not in self.storage:
+            self.storage[letter] = len(self.storage) + 1
+        return 0
 
     def get_id_by_letter(self, letter: str) -> int:
         """
@@ -40,7 +53,9 @@ class LetterStorage:
         :param letter: a letter
         :return: an id
         """
-        pass
+        if not isinstance(letter, str) or letter not in self.storage or not 0 < len(letter) <= 1:
+            return -1
+        return self.storage[letter]
 
     def update(self, corpus: tuple) -> int:
         """
@@ -48,7 +63,13 @@ class LetterStorage:
         :param corpus: a tuple of sentences
         :return: 0 if succeeds, 1 if not
         """
-        pass
+        if not isinstance(corpus, tuple):
+            return 1
+        for sentence in corpus:
+            for token in sentence:
+                for letter in token:
+                    self._put_letter(letter)
+        return 0
 
 
 # 6
