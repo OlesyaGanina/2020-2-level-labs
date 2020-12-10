@@ -2,32 +2,68 @@
 Lab 4
 """
 
+import re
 from ngrams.ngram_trie import NGramTrie
 
 
-def tokenize_by_sentence(text: str) -> tuple:
-    pass
+    def tokenize_by_sentence(text: str) -> tuple: 
+        if not isinstance(text, str):
+            raise ValueError   
+        if text == '' or text.isnumeric(): 
+
+        return ()
+
+        sentences = re.split('[!?.] |[!?.]\n', text) 
+        list_tokens = []
+        for sentence in sentences:
+            tokens = re.sub('[^a-z \n]', '', sentence.lower()).split() 
+            if tokens:
+                list_tokens.extend(tokens + ['<END>']) # text = 'I have a cat.\nHis name is Bruno' --> ('i', 'have', 'a', 'cat', '<END>' ,'his', 'name', 'is', 'bruno', '<END>')
+
+        return tuple(list_tokens)
 
 
-class WordStorage:
+class WordStorage:    
     def __init__(self):
-        pass
+        self.storage = {}
 
     def _put_word(self, word: str):
-        pass
+        if not isinstance(word, str) or word == '':
+            raise ValueError
+
+        if word not in self.storage:
+            self.storage[word] = len(self.storage) + 1
+        return self.storage.get(word)
 
     def get_id(self, word: str) -> int:
-        pass
+        if not isinstance(word, str) or word == '':
+            raise ValueError
+
+        if word not in self.storage:
+            raise KeyError
+
 
     def get_word(self, word_id: int) -> str:
-        pass
+        if not isinstance(word_id, int):
+            raise ValueError
+
+        for word in self.storage:
+            if self.storage[word] == word_id:
+                return word
+        raise KeyError
+
 
     def update(self, corpus: tuple):
-        pass
+        if not isinstance(corpus, tuple):
+            raise ValueError
+        for word in corpus:
+            self._put_word(word)
 
 
-def encode_text(storage: WordStorage, text: tuple) -> tuple:
-    pass
+    def encode_text(storage: WordStorage, text: tuple) -> tuple:
+        if not isinstance(storage, WordStorage) or not isinstance(text, tuple):
+            raise ValueError
+        return tuple(storage.get_id(word) for word in text)
 
 
 class NGramTextGenerator:
