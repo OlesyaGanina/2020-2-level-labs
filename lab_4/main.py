@@ -2,17 +2,13 @@
 Lab 4
 """
 
-from ngrams.ngram_trie import NGramTrie
 
-
-def tokenize_by_sentence(text: str) -> tuple:
-    pass
-
-
-class WordStorage:
-    def __init__(self):
+    def tokenize_by_sentence(text: str) -> tuple: 
         pass
 
+class WordStorage:    
+    def __init__(self):
+        pass
     def _put_word(self, word: str):
         pass
 
@@ -22,12 +18,13 @@ class WordStorage:
     def get_word(self, word_id: int) -> str:
         pass
 
+
     def update(self, corpus: tuple):
         pass
 
 
-def encode_text(storage: WordStorage, text: tuple) -> tuple:
-    pass
+    def encode_text(storage: WordStorage, text: tuple) -> tuple:
+        pass
 
 
 class NGramTextGenerator:
